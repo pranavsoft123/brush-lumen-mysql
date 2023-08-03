@@ -42,7 +42,7 @@ RUN composer update --no-dev
 RUN composer install
 
 # Expose the port the web server will listen on
-EXPOSE 9001
+EXPOSE 9000
 
 # Command to start the PHP built-in server
 CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]
