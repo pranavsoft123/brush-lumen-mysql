@@ -35,14 +35,16 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy the application files into the container
 COPY . .
 
-RUN composer update --no-dev
+# RUN composer update 
 
 
 # Install application dependencies
-RUN composer install
+#RUN composer install
+
+#RUN php artisan storage:link
 
 # Expose the port the web server will listen on
-EXPOSE 9000
+# EXPOSE 8000
 
 # Command to start the PHP built-in server
-CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]
+# CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
