@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-nginx
+  template:
+    metadata:
+      labels:
+        app: app-nginx
+    spec:
+      containers:
+      - name: app
+        image: pranavsoftsuave/laravel:latest
+        ports:
+        - containerPort: 9000
+        envFrom:
+          - configMapRef:
+              name: my-configmap
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: nginx-config
+            mountPath: /etc/nginx/nginx.conf
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+
+
+
+
+
+
