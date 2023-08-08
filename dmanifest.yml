@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mysql-deployment
 spec:
-  replicas: 1
+  replicas: 1 
   selector:
     matchLabels:
       app: mysql
@@ -13,16 +13,23 @@ spec:
         app: mysql
     spec:
       containers:
-      - name: mysql
-        image: mysql:5.7
-        env:
-          - name: MYSQL_ROOT_PASSWORD
-            value: Zxcvbnm.123
-          - name: MYSQL_DATABASE
-            value: homestead
-          - name: MYSQL_USER
-            value: pranav
-          - name: MYSQL_PASSWORD
-            value: Zxcvbnm.123
-        ports:
-        - containerPort: 3306
+        - name: mysql
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "Zxcvbnm.123"
+            - name: MYSQL_DATABASE
+              value: "homestead"
+            - name: MYSQL_USER
+              value: "pranav"
+            - name: MYSQL_PASSWORD
+              value: "Zxcvbnm.123"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc

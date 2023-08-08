@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-nginx
+  name: app-nginx-deployment
+  namespace: laravel-1
 spec:
   replicas: 1
   selector:
@@ -13,27 +14,33 @@ spec:
         app: app-nginx
     spec:
       containers:
-      - name: app
-        image: pranavsoftsuave/laravel:latest
-        ports:
-        - containerPort: 9000
-        envFrom:
-          - configMapRef:
-              name: my-configmap
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-        volumeMounts:
-          - name: nginx-config
-            mountPath: /etc/nginx/nginx.conf
+        - name: app
+          image: pranavsoftsuave/laravel
+          ports:
+          - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: my-configmap
+          volumeMounts:
+            - name: local-files
+              mountPath: /var/www/html
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: app-volume
+              mountPath: /var/www/html
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
       volumes:
+        - name: app-volume
+          persistentVolumeClaim:
+            claimName: app-pvc
         - name: nginx-config
           configMap:
-            name: nginx-config
-
-
-
-
-
-
+            name: nginx-config  
+        - name: local-files
+          hostPath:
+            path: C:/Users/Softsuave_PC/Documents/GitHub/brush-lumen-mysql/
