@@ -1,0 +1,9 @@
+{
+    "themeName": "bootstrap",
+    "landingPage": {
+        "folderName": "landingPage"
+    },
+    "dashboard": {
+        "folderName": "dashboard"
+    }
+}
